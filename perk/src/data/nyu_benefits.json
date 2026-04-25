@@ -1,0 +1,184 @@
+{
+  "benefits": [
+    {
+      "id": 1,
+      "name": "Mamoun's Falafel",
+      "category": "restaurant",
+      "description": "Iconic falafel and Middle Eastern street food near Washington Square.",
+      "discount": "10% off with NYU ID",
+      "address": "119 MacDougal St, New York, NY 10012",
+      "coordinates": {
+        "lat": 40.7296,
+        "lng": -74.0005
+      }
+    },
+    {
+      "id": 2,
+      "name": "Joe's Pizza",
+      "category": "restaurant",
+      "description": "Classic NYC slice joint, a Village staple since 1975.",
+      "discount": "10% off with NYU ID",
+      "address": "7 Carmine St, New York, NY 10014",
+      "coordinates": {
+        "lat": 40.7291,
+        "lng": -74.0025
+      }
+    },
+    {
+      "id": 3,
+      "name": "Insomnia Cookies",
+      "category": "restaurant",
+      "description": "Late-night warm cookie delivery and pickup on University Place.",
+      "discount": "1 free cookie with any order using NYU ID",
+      "address": "115 University Pl, New York, NY 10003",
+      "coordinates": {
+        "lat": 40.7327,
+        "lng": -73.9943
+      }
+    },
+    {
+      "id": 4,
+      "name": "Artichoke Basille's Pizza",
+      "category": "restaurant",
+      "description": "Famous for their artichoke and Sicilian slices.",
+      "discount": "10% off with NYU ID",
+      "address": "321 E 14th St, New York, NY 10003",
+      "coordinates": {
+        "lat": 40.7318,
+        "lng": -73.9832
+      }
+    },
+    {
+      "id": 5,
+      "name": "John's of Bleecker Street",
+      "category": "restaurant",
+      "description": "Legendary coal-fired brick-oven pizza, NYC institution since 1929.",
+      "discount": "10% off with NYU ID",
+      "address": "278 Bleecker St, New York, NY 10014",
+      "coordinates": {
+        "lat": 40.7315,
+        "lng": -74.0044
+      }
+    },
+    {
+      "id": 6,
+      "name": "Two Boots Pizza",
+      "category": "restaurant",
+      "description": "Cajun-Italian fusion pizza with creative toppings.",
+      "discount": "10% off with NYU ID",
+      "address": "42 Ave A, New York, NY 10009",
+      "coordinates": {
+        "lat": 40.7225,
+        "lng": -73.9840
+      }
+    },
+    {
+      "id": 7,
+      "name": "Pommes Frites",
+      "category": "restaurant",
+      "description": "Belgian-style double-fried fries with unique dipping sauces.",
+      "discount": "10% off with NYU ID",
+      "address": "128 MacDougal St, New York, NY 10012",
+      "coordinates": {
+        "lat": 40.7297,
+        "lng": -74.0010
+      }
+    },
+    {
+      "id": 8,
+      "name": "The Metropolitan Museum of Art",
+      "category": "museum",
+      "description": "One of the world's largest and most comprehensive art museums.",
+      "discount": "Free admission with NYU ID",
+      "address": "1000 Fifth Ave, New York, NY 10028",
+      "coordinates": {
+        "lat": 40.7794,
+        "lng": -73.9632
+      }
+    },
+    {
+      "id": 9,
+      "name": "Museum of Modern Art (MoMA)",
+      "category": "museum",
+      "description": "Premier collection of modern and contemporary art.",
+      "discount": "Free admission with NYU ID",
+      "address": "11 W 53rd St, New York, NY 10019",
+      "coordinates": {
+        "lat": 40.7614,
+        "lng": -73.9776
+      }
+    },
+    {
+      "id": 10,
+      "name": "Whitney Museum of American Art",
+      "category": "museum",
+      "description": "Dedicated to 20th and 21st century American art, located in the Meatpacking District.",
+      "discount": "Free admission with NYU ID",
+      "address": "99 Gansevoort St, New York, NY 10014",
+      "coordinates": {
+        "lat": 40.7396,
+        "lng": -74.0089
+      }
+    },
+    {
+      "id": 11,
+      "name": "New Museum",
+      "category": "museum",
+      "description": "Contemporary art museum on the Bowery, close to NYU campus.",
+      "discount": "Free admission with NYU ID",
+      "address": "235 Bowery, New York, NY 10002",
+      "coordinates": {
+        "lat": 40.7225,
+        "lng": -73.9934
+      }
+    },
+    {
+      "id": 12,
+      "name": "Solomon R. Guggenheim Museum",
+      "category": "museum",
+      "description": "Iconic Frank Lloyd Wright building housing modern and contemporary art.",
+      "discount": "Free admission with NYU ID",
+      "address": "1071 Fifth Ave, New York, NY 10128",
+      "coordinates": {
+        "lat": 40.7830,
+        "lng": -73.9590
+      }
+    },
+    {
+      "id": 13,
+      "name": "Brooklyn Museum",
+      "category": "museum",
+      "description": "One of the largest art museums in the US with encyclopedic collections.",
+      "discount": "Free admission with NYU ID",
+      "address": "200 Eastern Pkwy, Brooklyn, NY 11238",
+      "coordinates": {
+        "lat": 40.6712,
+        "lng": -73.9636
+      }
+    },
+    {
+      "id": 14,
+      "name": "American Museum of Natural History",
+      "category": "museum",
+      "description": "World-renowned natural history museum on the Upper West Side.",
+      "discount": "Discounted admission with NYU ID",
+      "address": "200 Central Park West, New York, NY 10024",
+      "coordinates": {
+        "lat": 40.7813,
+        "lng": -73.9740
+      }
+    },
+    {
+      "id": 15,
+      "name": "The Frick Collection",
+      "category": "museum",
+      "description": "Intimate collection of Old Masters in a Gilded Age mansion.",
+      "discount": "Discounted admission with NYU ID",
+      "address": "1 E 70th St, New York, NY 10021",
+      "coordinates": {
+        "lat": 40.7717,
+        "lng": -73.9670
+      }
+    }
+  ]
+}
