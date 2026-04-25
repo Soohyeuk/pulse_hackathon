@@ -1,0 +1,89 @@
+{
+  "lines": [
+    {
+      "id": "6",
+      "name": "6 Train",
+      "headway_min": 4,
+      "avg_per_stop_min": 2,
+      "stops": [
+        { "name": "Astor Pl", "lat": 40.7300, "lng": -73.9913 },
+        { "name": "14 St-Union Sq", "lat": 40.7359, "lng": -73.9911 },
+        { "name": "23 St", "lat": 40.7398, "lng": -73.9866 },
+        { "name": "28 St", "lat": 40.7434, "lng": -73.9842 },
+        { "name": "33 St", "lat": 40.7460, "lng": -73.9820 },
+        { "name": "Grand Central-42 St", "lat": 40.7527, "lng": -73.9772 },
+        { "name": "51 St", "lat": 40.7570, "lng": -73.9719 },
+        { "name": "68 St-Hunter College", "lat": 40.7685, "lng": -73.9638 },
+        { "name": "77 St", "lat": 40.7738, "lng": -73.9598 },
+        { "name": "86 St", "lat": 40.7791, "lng": -73.9554 },
+        { "name": "96 St", "lat": 40.7855, "lng": -73.9510 }
+      ]
+    },
+    {
+      "id": "N",
+      "name": "N Train",
+      "headway_min": 6,
+      "avg_per_stop_min": 2,
+      "stops": [
+        { "name": "8 St-NYU", "lat": 40.7305, "lng": -73.9925 },
+        { "name": "14 St-Union Sq", "lat": 40.7355, "lng": -73.9908 },
+        { "name": "23 St", "lat": 40.7415, "lng": -73.9892 },
+        { "name": "28 St", "lat": 40.7456, "lng": -73.9881 },
+        { "name": "34 St-Herald Sq", "lat": 40.7494, "lng": -73.9879 },
+        { "name": "Times Sq-42 St", "lat": 40.7547, "lng": -73.9869 },
+        { "name": "49 St", "lat": 40.7596, "lng": -73.9839 },
+        { "name": "57 St-7 Av", "lat": 40.7645, "lng": -73.9809 },
+        { "name": "5 Av-59 St", "lat": 40.7649, "lng": -73.9731 },
+        { "name": "Lexington Av-59 St", "lat": 40.7625, "lng": -73.9670 }
+      ]
+    },
+    {
+      "id": "F",
+      "name": "F Train",
+      "headway_min": 5,
+      "avg_per_stop_min": 2,
+      "stops": [
+        { "name": "Delancey-Essex", "lat": 40.7188, "lng": -73.9879 },
+        { "name": "2 Av", "lat": 40.7232, "lng": -73.9897 },
+        { "name": "Broadway-Lafayette", "lat": 40.7255, "lng": -73.9966 },
+        { "name": "W 4 St-Wash Sq", "lat": 40.7323, "lng": -74.0007 },
+        { "name": "14 St", "lat": 40.7382, "lng": -74.0001 },
+        { "name": "23 St", "lat": 40.7426, "lng": -73.9921 },
+        { "name": "34 St-Herald Sq", "lat": 40.7494, "lng": -73.9879 },
+        { "name": "42 St-Bryant Pk", "lat": 40.7544, "lng": -73.9842 },
+        { "name": "47-50 Sts-Rockefeller", "lat": 40.7589, "lng": -73.9810 }
+      ]
+    },
+    {
+      "id": "ACE",
+      "name": "A/C/E Train",
+      "headway_min": 5,
+      "avg_per_stop_min": 2,
+      "stops": [
+        { "name": "Spring St", "lat": 40.7260, "lng": -74.0039 },
+        { "name": "W 4 St-Wash Sq", "lat": 40.7323, "lng": -74.0007 },
+        { "name": "14 St", "lat": 40.7405, "lng": -74.0030 },
+        { "name": "23 St", "lat": 40.7459, "lng": -73.9990 },
+        { "name": "34 St-Penn Station", "lat": 40.7524, "lng": -73.9933 },
+        { "name": "42 St-Port Authority", "lat": 40.7572, "lng": -73.9897 },
+        { "name": "50 St", "lat": 40.7621, "lng": -73.9854 },
+        { "name": "59 St-Columbus Circle", "lat": 40.7681, "lng": -73.9819 }
+      ]
+    },
+    {
+      "id": "L",
+      "name": "L Train",
+      "headway_min": 4,
+      "avg_per_stop_min": 2,
+      "stops": [
+        { "name": "8 Av", "lat": 40.7396, "lng": -74.0026 },
+        { "name": "6 Av", "lat": 40.7374, "lng": -73.9966 },
+        { "name": "Union Sq-14 St", "lat": 40.7349, "lng": -73.9897 },
+        { "name": "3 Av", "lat": 40.7327, "lng": -73.9863 },
+        { "name": "1 Av", "lat": 40.7307, "lng": -73.9817 },
+        { "name": "Bedford Av", "lat": 40.7173, "lng": -73.9568 },
+        { "name": "Lorimer St", "lat": 40.7141, "lng": -73.9504 }
+      ]
+    }
+  ]
+}
