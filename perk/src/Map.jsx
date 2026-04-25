@@ -1,12 +1,37 @@
+
+import PlaceDetail from './PlaceDetail'
 import { useState, useRef, useCallback } from 'react'
 import { Map, Marker, NavigationControl } from 'react-map-gl/mapbox'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import MapOverlay from './MapOverlay'
+import SearchScreen from './SearchScreen'
+import benefitsData from './data/nyu_benefits.json'
+import './MapControls.css'
+
+const CATEGORY_COLORS = {
+  restaurant: '#e85d3a',
+  museum: '#2d7be5',
+  cafe: '#a26b3a',
+  clothing: '#d63384',
+  culture: '#5219A7',
+}
 
 const TOKEN = import.meta.env.VITE_MAPBOX_TOKEN
 const API = import.meta.env.VITE_API_BASE || 'http://localhost:8000'
 
 const NYU = { lng: -73.9965, lat: 40.7295 }
 
+export default function MapView() {
+  const mapRef = useRef(null)
+  const [selected, setSelected] = useState(null)
+  const [userLoc, setUserLoc] = useState(null)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const benefits = benefitsData.benefits
+
+  if (!TOKEN) {
+    return (
+      <div style={{ padding: 16 }}>
+        Missing <code>VITE_MAPBOX_TOKEN</code> in <code>.env</code>. Restart the dev server after adding it.
 function AddressInput({ label, value, onChange, onSelect, placeholder }) {
   const [suggestions, setSuggestions] = useState([])
   const debounceRef = useRef(null)
@@ -108,6 +133,26 @@ export default function MapView() {
     )
   }
 
+  const handleLocate = () => {
+    if (!navigator.geolocation) return
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { longitude, latitude } = pos.coords
+        setUserLoc({ lng: longitude, lat: latitude })
+        mapRef.current?.flyTo({
+          center: [longitude, latitude],
+          zoom: 15,
+          essential: true,
+        })
+      },
+      (err) => console.warn('geolocation failed', err),
+      { enableHighAccuracy: true }
+    )
+  }
+
+  return (
+    <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
+      <MapOverlay onOpenSearch={() => setSearchOpen(true)} />
   const handleSearch = async () => {
     setError(null)
     setResults(null)
@@ -137,75 +182,88 @@ export default function MapView() {
   return (
     <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
       <Map
+        ref={mapRef}
         mapboxAccessToken={TOKEN}
         initialViewState={{ longitude: NYU.lng, latitude: NYU.lat, zoom: 14 }}
         mapStyle="mapbox://styles/mapbox/streets-v12"
         style={{ width: '100%', height: '100%' }}
       >
-        <NavigationControl position="top-right" />
-        {markers.origin && <Marker longitude={markers.origin.lng} latitude={markers.origin.lat} color="#22c55e" />}
-        {markers.dest && <Marker longitude={markers.dest.lng} latitude={markers.dest.lat} color="#ef4444" />}
+        <Marker longitude={NYU.lng} latitude={NYU.lat} color="#57068c" />
+
+        {userLoc && (
+          <Marker longitude={userLoc.lng} latitude={userLoc.lat} anchor="center">
+            <div className="user-location">
+              <div className="user-location__pulse" />
+              <div className="user-location__dot" />
+            </div>
+          </Marker>
+        )}
+
+        {benefits.map((b) => (
+          <Marker
+            key={b.id}
+            longitude={b.coordinates.lng}
+            latitude={b.coordinates.lat}
+            anchor="bottom"
+            onClick={(e) => {
+              e.originalEvent.stopPropagation()
+              setSelected(b)
+              mapRef.current?.flyTo({
+                center: [b.coordinates.lng, b.coordinates.lat],
+                zoom: 16,
+                essential: true,
+              })
+            }}
+          >
+            <div
+              className="benefit-pin"
+              style={{ background: CATEGORY_COLORS[b.category] || '#5219A7' }}
+              title={b.name}
+            />
+          </Marker>
+        ))}
+
       </Map>
 
-      {/* Route Panel */}
-      <div style={{
-        position: 'absolute', top: 16, left: 16, width: 300,
-        background: '#fff', borderRadius: 14, padding: 16,
-        boxShadow: '0 4px 20px rgba(0,0,0,0.15)', zIndex: 10,
-      }}>
-        <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 12 }}>Find Your Route</div>
+      <PlaceDetail place={selected} onClose={() => setSelected(null)} />
 
-        <AddressInput
-          label="FROM"
-          value={originText}
-          onChange={setOriginText}
-          onSelect={(s) => { setOriginCoords(s); setMarkers(m => ({ ...m, origin: s })) }}
-          placeholder="Enter starting point..."
+      {searchOpen && (
+        <SearchScreen
+          benefits={benefits}
+          onClose={() => setSearchOpen(false)}
+          onSelect={(b) => {
+            setSearchOpen(false)
+            setSelected(b)
+            mapRef.current?.flyTo({
+              center: [b.coordinates.lng, b.coordinates.lat],
+              zoom: 16,
+              essential: true,
+            })
+          }}
         />
+      )}
 
-        <button onClick={useMyLocation} style={{
-          width: '100%', padding: '7px', marginBottom: 8, background: '#f0f7ff',
-          border: '1px solid #3b82f6', borderRadius: 8, color: '#3b82f6',
-          fontSize: 12, fontWeight: 600, cursor: 'pointer',
-        }}>
-          Use My Current Location
+      <div className="map-fabs">
+        <button
+          type="button"
+          className="map-fab"
+          aria-label="My location"
+          onClick={handleLocate}
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3.4 10.6 20 3l-7.6 16.6-2-7.4-7-1.6z" />
+          </svg>
         </button>
-
-        <AddressInput
-          label="TO"
-          value={destText}
-          onChange={setDestText}
-          onSelect={(s) => { setDestCoords(s); setMarkers(m => ({ ...m, dest: s })) }}
-          placeholder="Enter destination..."
-        />
-
-        <button onClick={handleSearch} disabled={loading} style={{
-          width: '100%', padding: '10px', background: '#57068c',
-          border: 'none', borderRadius: 8, color: '#fff',
-          fontSize: 13, fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer',
-          opacity: loading ? 0.7 : 1, marginTop: 4,
-        }}>
-          {loading ? 'Searching...' : 'Compare Routes'}
+        <button
+          type="button"
+          className="map-fab"
+          aria-label="Discover"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2l1.8 5.4L19 9l-5.2 1.6L12 16l-1.8-5.4L5 9l5.2-1.6z" />
+            <path d="M19 14l.9 2.6L22 18l-2.1.4L19 21l-.9-2.6L16 18l2.1-1.4z" opacity="0.85" />
+          </svg>
         </button>
-
-        {error && (
-          <div style={{ color: '#ef4444', fontSize: 12, marginTop: 8 }}>{error}</div>
-        )}
-
-        {results && results.options.length > 0 && (
-          <div style={{ marginTop: 14 }}>
-            <div style={{ fontWeight: 700, fontSize: 13, marginBottom: 8 }}>
-              {results.origin.name?.split(',')[0]} → {results.destination.name?.split(',')[0]}
-            </div>
-            {results.options.map((opt, i) => (
-              <RouteResult key={i} option={opt} isFirst={i === 0} />
-            ))}
-          </div>
-        )}
-
-        {results && results.options.length === 0 && (
-          <div style={{ color: '#888', fontSize: 12, marginTop: 8 }}>No routes found.</div>
-        )}
       </div>
     </div>
   )
