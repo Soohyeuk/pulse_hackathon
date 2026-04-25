@@ -1,10 +1,9 @@
-
-import PlaceDetail from './PlaceDetail'
-import { useState, useRef, useCallback } from 'react'
-import { Map, Marker, NavigationControl } from 'react-map-gl/mapbox'
+import { useRef, useState } from 'react'
+import { Map, Marker } from 'react-map-gl/mapbox'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import MapOverlay from './MapOverlay'
 import SearchScreen from './SearchScreen'
+import PlaceDetail from './PlaceDetail'
 import benefitsData from './data/nyu_benefits.json'
 import './MapControls.css'
 
@@ -21,17 +20,6 @@ const API = import.meta.env.VITE_API_BASE || 'http://localhost:8000'
 
 const NYU = { lng: -73.9965, lat: 40.7295 }
 
-export default function MapView() {
-  const mapRef = useRef(null)
-  const [selected, setSelected] = useState(null)
-  const [userLoc, setUserLoc] = useState(null)
-  const [searchOpen, setSearchOpen] = useState(false)
-  const benefits = benefitsData.benefits
-
-  if (!TOKEN) {
-    return (
-      <div style={{ padding: 16 }}>
-        Missing <code>VITE_MAPBOX_TOKEN</code> in <code>.env</code>. Restart the dev server after adding it.
 function AddressInput({ label, value, onChange, onSelect, placeholder }) {
   const [suggestions, setSuggestions] = useState([])
   const debounceRef = useRef(null)
@@ -42,8 +30,12 @@ function AddressInput({ label, value, onChange, onSelect, placeholder }) {
     clearTimeout(debounceRef.current)
     if (q.length < 2) { setSuggestions([]); return }
     debounceRef.current = setTimeout(async () => {
-      const res = await fetch(`${API}/api/geocode/suggest?query=${encodeURIComponent(q)}`)
-      setSuggestions(await res.json())
+      try {
+        const res = await fetch(`${API}/api/geocode/suggest?query=${encodeURIComponent(q)}`)
+        setSuggestions(await res.json())
+      } catch {
+        setSuggestions([])
+      }
     }, 300)
   }
 
@@ -74,10 +66,7 @@ function AddressInput({ label, value, onChange, onSelect, placeholder }) {
           {suggestions.map((s, i) => (
             <div key={i} onClick={() => handleSelect(s)} style={{
               padding: '9px 12px', fontSize: 12, cursor: 'pointer', borderBottom: '1px solid #f0f0f0',
-            }}
-              onMouseEnter={e => e.target.style.background = '#f5f5f5'}
-              onMouseLeave={e => e.target.style.background = '#fff'}
-            >
+            }}>
               {s.name}
             </div>
           ))}
@@ -96,9 +85,9 @@ function RouteResult({ option, isFirst }) {
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
         <span style={{ fontWeight: 700, fontSize: 13 }}>{option.mode}</span>
-        <span style={{
-          fontWeight: 700, fontSize: 14, color: isFirst ? '#3b82f6' : '#333',
-        }}>{option.total_minutes} min</span>
+        <span style={{ fontWeight: 700, fontSize: 14, color: isFirst ? '#3b82f6' : '#333' }}>
+          {option.total_minutes} min
+        </span>
       </div>
       {option.segments.map((s, i) => (
         <div key={i} style={{ fontSize: 11, color: '#555', marginBottom: 2 }}>• {s}</div>
@@ -110,7 +99,7 @@ function RouteResult({ option, isFirst }) {
   )
 }
 
-export default function MapView() {
+function RoutePanel({ onClose }) {
   const [originText, setOriginText] = useState('')
   const [destText, setDestText] = useState('')
   const [originCoords, setOriginCoords] = useState(null)
@@ -118,18 +107,105 @@ export default function MapView() {
   const [results, setResults] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [markers, setMarkers] = useState({ origin: null, dest: null })
 
   const useMyLocation = () => {
     if (!navigator.geolocation) { setError('Geolocation not supported'); return }
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const coords = { lat: pos.coords.latitude, lng: pos.coords.longitude }
-        setOriginCoords(coords)
+        setOriginCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude })
         setOriginText('My Current Location')
-        setMarkers(m => ({ ...m, origin: coords }))
       },
       () => setError('Could not get your location')
+    )
+  }
+
+  const handleSearch = async () => {
+    setError(null)
+    setResults(null)
+    if (!originCoords) { setError('Please select an origin'); return }
+    if (!destCoords) { setError('Please select a destination'); return }
+
+    setLoading(true)
+    try {
+      const res = await fetch(
+        `${API}/api/routes?origin_lat=${originCoords.lat}&origin_lng=${originCoords.lng}&dest_lat=${destCoords.lat}&dest_lng=${destCoords.lng}`
+      )
+      setResults(await res.json())
+    } catch {
+      setError('Failed to fetch routes. Is the backend running?')
+    }
+    setLoading(false)
+  }
+
+  return (
+    <div style={{
+      position: 'absolute', top: 16, left: 16, right: 16, zIndex: 8,
+      background: '#fff', borderRadius: 16, padding: 14,
+      boxShadow: '0 8px 24px rgba(0,0,0,0.15)', maxHeight: '70svh', overflowY: 'auto',
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+        <strong style={{ fontSize: 15 }}>Plan a route</strong>
+        <button onClick={onClose} style={{
+          background: 'transparent', border: 'none', fontSize: 18, cursor: 'pointer', color: '#666',
+        }}>×</button>
+      </div>
+
+      <AddressInput
+        label="ORIGIN"
+        value={originText}
+        onChange={setOriginText}
+        onSelect={(s) => setOriginCoords({ lat: s.lat, lng: s.lng })}
+        placeholder="Start location"
+      />
+      <button onClick={useMyLocation} style={{
+        background: 'transparent', border: 'none', color: '#5219A7',
+        fontSize: 12, cursor: 'pointer', padding: 0, marginBottom: 8,
+      }}>
+        Use my current location
+      </button>
+
+      <AddressInput
+        label="DESTINATION"
+        value={destText}
+        onChange={setDestText}
+        onSelect={(s) => setDestCoords({ lat: s.lat, lng: s.lng })}
+        placeholder="Where to?"
+      />
+
+      <button onClick={handleSearch} disabled={loading} style={{
+        width: '100%', padding: '10px', background: '#5219A7', color: '#fefbf5',
+        border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 600,
+        cursor: 'pointer', marginTop: 4,
+      }}>
+        {loading ? 'Searching…' : 'Find routes'}
+      </button>
+
+      {error && <div style={{ color: '#c0392b', fontSize: 12, marginTop: 8 }}>{error}</div>}
+
+      {results?.options && (
+        <div style={{ marginTop: 12 }}>
+          {results.options.map((opt, i) => (
+            <RouteResult key={i} option={opt} isFirst={i === 0} />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default function MapView() {
+  const mapRef = useRef(null)
+  const [selected, setSelected] = useState(null)
+  const [userLoc, setUserLoc] = useState(null)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [routeOpen, setRouteOpen] = useState(false)
+  const benefits = benefitsData.benefits
+
+  if (!TOKEN) {
+    return (
+      <div style={{ padding: 16 }}>
+        Missing <code>VITE_MAPBOX_TOKEN</code> in <code>.env</code>. Restart the dev server after adding it.
+      </div>
     )
   }
 
@@ -152,35 +228,8 @@ export default function MapView() {
 
   return (
     <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
-      <MapOverlay onOpenSearch={() => setSearchOpen(true)} />
-  const handleSearch = async () => {
-    setError(null)
-    setResults(null)
+      {!routeOpen && <MapOverlay onOpenSearch={() => setSearchOpen(true)} />}
 
-    const origin = originCoords
-    const dest = destCoords
-
-    if (!origin) { setError('Please select an origin'); return }
-    if (!dest) { setError('Please select a destination'); return }
-
-    setLoading(true)
-    try {
-      const res = await fetch(
-        `${API}/api/routes?origin_lat=${origin.lat}&origin_lng=${origin.lng}&dest_lat=${dest.lat}&dest_lng=${dest.lng}`
-      )
-      const data = await res.json()
-      setResults(data)
-      setMarkers({ origin, dest })
-    } catch {
-      setError('Failed to fetch routes. Is the backend running?')
-    }
-    setLoading(false)
-  }
-
-  if (!TOKEN) return <div style={{ padding: 16 }}>Missing VITE_MAPBOX_TOKEN in .env</div>
-
-  return (
-    <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
       <Map
         ref={mapRef}
         mapboxAccessToken={TOKEN}
@@ -222,7 +271,6 @@ export default function MapView() {
             />
           </Marker>
         ))}
-
       </Map>
 
       <PlaceDetail place={selected} onClose={() => setSelected(null)} />
@@ -243,6 +291,8 @@ export default function MapView() {
         />
       )}
 
+      {routeOpen && <RoutePanel onClose={() => setRouteOpen(false)} />}
+
       <div className="map-fabs">
         <button
           type="button"
@@ -257,7 +307,8 @@ export default function MapView() {
         <button
           type="button"
           className="map-fab"
-          aria-label="Discover"
+          aria-label="Plan route"
+          onClick={() => setRouteOpen((v) => !v)}
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2l1.8 5.4L19 9l-5.2 1.6L12 16l-1.8-5.4L5 9l5.2-1.6z" />
