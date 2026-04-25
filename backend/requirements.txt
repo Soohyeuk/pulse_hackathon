@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+httpx
+gtfs-realtime-bindings
+python-dotenv

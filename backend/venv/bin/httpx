@@ -1,4 +1,4 @@
-#!/Users/soohyeuk/Documents/pulse_hackathon/backend/venv/bin/python3
+#!/Users/hyunjunpark/pulse_hackathon/backend/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
