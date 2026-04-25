@@ -14,6 +14,7 @@ const CATEGORY_COLORS = {
   cafe: '#a26b3a',
   clothing: '#d63384',
   culture: '#5219A7',
+  campus: '#57068c',
 }
 
 const TOKEN = import.meta.env.VITE_MAPBOX_TOKEN
@@ -308,7 +309,7 @@ export default function MapView() {
           type="button"
           className="map-fab"
           aria-label="My location"
-          onClick={handleLocate}
+          onClick={(e) => { e.currentTarget.blur(); handleLocate() }}
         >
           <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2L4.5 20.5L12 17L19.5 20.5Z" transform="rotate(45 12 12)" />
@@ -318,7 +319,7 @@ export default function MapView() {
           type="button"
           className="map-fab map-fab--primary"
           aria-label="Plan route"
-          onClick={() => setRouteOpen((v) => !v)}
+          onClick={(e) => { e.currentTarget.blur(); setRouteOpen((v) => !v) }}
         >
           <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5Z" />

@@ -41,7 +41,7 @@ function caloriesFromMeters(distance_m) {
 }
 
 // Mock numbers used in the UI in place of live schedule / distance data.
-const MOCK = {
+const DEFAULT_MOCK = {
   subway: {
     departsInMin: 10,
     walkToStationMi: 0.2,
@@ -63,12 +63,42 @@ const MOCK = {
   },
 }
 
+// Tandon is the Brooklyn campus — longer transit, but the NYU Shuttle
+// runs Washington Square ↔ MetroTech, so shuttle is available here.
+const TANDON_MOCK = {
+  subway: {
+    departsInMin: 6,
+    walkToStationMi: 0.3,
+    transfers: 1,
+    fallbackTotal: 32,
+    fallbackStation: 'Jay St – MetroTech',
+    fallbackLines: 'A,C,F',
+  },
+  shuttle: {
+    departsInMin: 8,
+    walkToStopMi: 0.2,
+    stopName: 'Washington Square',
+    fallbackTotal: 25,
+  },
+  walk: {
+    fallbackTotal: 95,
+    fallbackMiles: 4.2,
+    fallbackKcal: 340,
+  },
+}
+
+function isTandon(place) {
+  return place?.category === 'campus' && /tandon/i.test(place?.name || '')
+}
+
 export default function CompareRoutes({ place, onClose }) {
   const [tab, setTab] = useState('shuttle')
   const [loading, setLoading] = useState(true)
   const cardRefs = useRef({})
 
   const originLabel = 'Your location'
+  const mock = isTandon(place) ? TANDON_MOCK : DEFAULT_MOCK
+  const shuttleAvailable = isTandon(place)
 
   useEffect(() => {
     setLoading(true)
@@ -79,20 +109,26 @@ export default function CompareRoutes({ place, onClose }) {
   const byCategory = useMemo(() => ({
     subway: {
       mode: 'Walk + Subway',
-      total_minutes: MOCK.subway.fallbackTotal,
-      station: MOCK.subway.fallbackStation,
-      lines: MOCK.subway.fallbackLines,
+      total_minutes: mock.subway.fallbackTotal,
+      station: mock.subway.fallbackStation,
+      lines: mock.subway.fallbackLines,
     },
-    shuttle: {
-      mode: 'NYU Shuttle',
-      unavailable: true,
-    },
+    shuttle: shuttleAvailable
+      ? {
+          mode: 'NYU Shuttle',
+          total_minutes: mock.shuttle.fallbackTotal,
+          stop: mock.shuttle.stopName,
+        }
+      : {
+          mode: 'NYU Shuttle',
+          unavailable: true,
+        },
     walk: {
       mode: 'Walking',
-      total_minutes: MOCK.walk.fallbackTotal,
-      distance_m: Math.round(MOCK.walk.fallbackMiles * 1609),
+      total_minutes: mock.walk.fallbackTotal,
+      distance_m: Math.round(mock.walk.fallbackMiles * 1609),
     },
-  }), [])
+  }), [mock, shuttleAvailable])
 
   const recommendedKey = useMemo(() => {
     let best = null
@@ -195,6 +231,7 @@ export default function CompareRoutes({ place, onClose }) {
             <SubwayCard
               refCb={(el) => (cardRefs.current.subway = el)}
               option={byCategory.subway}
+              mock={mock}
               isRecommended={recommendedKey === 'subway'}
               isSelected={tab === 'subway'}
               onClick={() => setTab('subway')}
@@ -264,9 +301,9 @@ function CardShell({ refCb, isRecommended, isSelected, accent, onClick, children
   )
 }
 
-function SubwayCard({ option, isRecommended, isSelected, onClick, refCb }) {
+function SubwayCard({ option, mock, isRecommended, isSelected, onClick, refCb }) {
   const lines = option ? parseLines(option.lines) : []
-  const departure = option ? timeFromNow(MOCK.subway.departsInMin) : '—'
+  const departure = option ? timeFromNow(mock.subway.departsInMin) : '—'
 
   return (
     <CardShell refCb={refCb} isRecommended={isRecommended} isSelected={isSelected} accent="purple" onClick={onClick}>
@@ -308,7 +345,7 @@ function SubwayCard({ option, isRecommended, isSelected, onClick, refCb }) {
                 <polyline points="7 4 7 20 3 16" />
                 <polyline points="17 20 17 4 21 8" />
               </svg>
-              {MOCK.subway.transfers} transfer
+              {mock.subway.transfers} transfer
             </span>
           </div>
 
@@ -323,7 +360,7 @@ function SubwayCard({ option, isRecommended, isSelected, onClick, refCb }) {
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z" /><circle cx="12" cy="10" r="3" />
               </svg>
-              {MOCK.subway.walkToStationMi} mi walk to station
+              {mock.subway.walkToStationMi} mi walk to station
             </span>
           </div>
         </>

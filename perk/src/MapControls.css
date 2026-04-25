@@ -28,16 +28,25 @@
 }
 
 .map-fab--primary {
-  background: #5219A7;
-  color: #fff;
+  background: #fff;
+  color: #5219A7;
 }
 
 .map-fab--primary:hover {
-  background: #3d1480;
+  background: #f6f1fc;
 }
 
 .map-fab:active {
   transform: translateY(1px);
+}
+
+.map-fab:focus {
+  outline: none;
+}
+
+.map-fab:focus-visible {
+  outline: 2px solid #5219A7;
+  outline-offset: 2px;
 }
 
 .user-location {

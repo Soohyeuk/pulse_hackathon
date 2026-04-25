@@ -103,6 +103,8 @@
       "description": "Premier collection of modern and contemporary art.",
       "discount": "Free admission with NYU ID",
       "address": "11 W 53rd St, New York, NY 10019",
+      "hours": "10:30 – 5:30",
+      "open": false,
       "coordinates": {
         "lat": 40.7614,
         "lng": -73.9776
@@ -178,6 +180,17 @@
       "coordinates": {
         "lat": 40.7717,
         "lng": -73.9670
+      }
+    },
+    {
+      "id": 16,
+      "name": "NYU Tandon School of Engineering",
+      "category": "campus",
+      "description": "NYU's engineering and applied sciences campus in Downtown Brooklyn.",
+      "address": "6 MetroTech Center, Brooklyn, NY 11201",
+      "coordinates": {
+        "lat": 40.6942,
+        "lng": -73.9866
       }
     }
   ]

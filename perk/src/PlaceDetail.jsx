@@ -38,9 +38,11 @@ export default function PlaceDetail({ place, onClose, onDirections }) {
             <span>{place.address}</span>
           </div>
           <div className="place-detail__status">
-            <span className="place-detail__open-dot" />
-            <span className="place-detail__open">Open now</span>
-            <span className="place-detail__hours-inline">· Open 24 hours</span>
+            <span className={`place-detail__open-dot${place.open === false ? ' place-detail__open-dot--closed' : ''}`} />
+            <span className={place.open === false ? 'place-detail__closed' : 'place-detail__open'}>
+              {place.open === false ? 'Closed' : 'Open now'}
+            </span>
+            <span className="place-detail__hours-inline">· {place.hours || 'Open 24 hours'}</span>
           </div>
         </div>
 
@@ -77,10 +79,12 @@ export default function PlaceDetail({ place, onClose, onDirections }) {
         </ActionButton>
       </div>
 
-      <div className="place-detail__perk">
-        <div className="place-detail__perk-label">Your perk</div>
-        <div className="place-detail__perk-value">{place.discount}</div>
-      </div>
+      {place.discount && (
+        <div className="place-detail__perk">
+          <div className="place-detail__perk-label">Your perk</div>
+          <div className="place-detail__perk-value">{place.discount}</div>
+        </div>
+      )}
 
       <p className="place-detail__desc">{place.description}</p>
     </div>

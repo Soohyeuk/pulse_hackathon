@@ -38,14 +38,11 @@
 }
 
 .place-detail__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
+  position: relative;
 }
 
 .place-detail__title-block {
-  flex: 1;
+  width: 100%;
   min-width: 0;
 }
 
@@ -54,6 +51,8 @@
   font-weight: 700;
   color: #08060d;
   margin: 0 0 6px;
+  padding: 0 80px 0 0;
+  text-align: left;
   letter-spacing: -0.3px;
 }
 
@@ -113,11 +112,23 @@
   font-weight: 600;
 }
 
+.place-detail__open-dot--closed {
+  background: #c0392b;
+}
+
+.place-detail__closed {
+  color: #c0392b;
+  font-weight: 600;
+}
+
 .place-detail__hours-inline {
   color: #6b6375;
 }
 
 .place-detail__badge {
+  position: absolute;
+  top: 0;
+  right: 0;
   background: #f1ecfa;
   color: #5219A7;
   border-radius: 14px;
