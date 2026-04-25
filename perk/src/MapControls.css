@@ -27,6 +27,15 @@
   background: #f6f1fc;
 }
 
+.map-fab--primary {
+  background: #5219A7;
+  color: #fff;
+}
+
+.map-fab--primary:hover {
+  background: #3d1480;
+}
+
 .map-fab:active {
   transform: translateY(1px);
 }

@@ -54,6 +54,11 @@ body {
   margin: 0;
 }
 
+.mapboxgl-ctrl-attrib,
+.mapboxgl-ctrl-attrib-button {
+  display: none !important;
+}
+
 #root {
   width: 1126px;
   max-width: 100%;

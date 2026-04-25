@@ -310,19 +310,19 @@ export default function MapView() {
           aria-label="My location"
           onClick={handleLocate}
         >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M3.4 10.6 20 3l-7.6 16.6-2-7.4-7-1.6z" />
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L4.5 20.5L12 17L19.5 20.5Z" transform="rotate(45 12 12)" />
           </svg>
         </button>
         <button
           type="button"
-          className="map-fab"
+          className="map-fab map-fab--primary"
           aria-label="Plan route"
           onClick={() => setRouteOpen((v) => !v)}
         >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2l1.8 5.4L19 9l-5.2 1.6L12 16l-1.8-5.4L5 9l5.2-1.6z" />
-            <path d="M19 14l.9 2.6L22 18l-2.1.4L19 21l-.9-2.6L16 18l2.1-1.4z" opacity="0.85" />
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5Z" />
+            <path d="M19 15L20.2 18.8L24 20L20.2 21.2L19 25L17.8 21.2L14 20L17.8 18.8Z" transform="scale(0.75) translate(6, 4)" />
           </svg>
         </button>
       </div>
