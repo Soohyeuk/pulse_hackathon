@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import transit
+from routers import transit, routes, geocode
 
 app = FastAPI(title="Pulse Hackathon API")
 
@@ -13,6 +13,8 @@ app.add_middleware(
 )
 
 app.include_router(transit.router)
+app.include_router(routes.router)
+app.include_router(geocode.router)
 
 
 @app.get("/")

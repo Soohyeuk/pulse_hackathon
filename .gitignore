@@ -10,3 +10,5 @@ perk/dist/
 
 # OS
 .DS_Store
+
+backend/.env
