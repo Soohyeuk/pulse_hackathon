@@ -4,6 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import MapOverlay from './MapOverlay'
 import SearchScreen from './SearchScreen'
 import PlaceDetail from './PlaceDetail'
+import CompareRoutes from './CompareRoutes'
 import benefitsData from './data/nyu_benefits.json'
 import './MapControls.css'
 
@@ -199,6 +200,7 @@ export default function MapView() {
   const [userLoc, setUserLoc] = useState(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const [routeOpen, setRouteOpen] = useState(false)
+  const [compareFor, setCompareFor] = useState(null)
   const benefits = benefitsData.benefits
 
   if (!TOKEN) {
@@ -273,7 +275,15 @@ export default function MapView() {
         ))}
       </Map>
 
-      <PlaceDetail place={selected} onClose={() => setSelected(null)} />
+      <PlaceDetail
+        place={selected}
+        onClose={() => setSelected(null)}
+        onDirections={() => setCompareFor(selected)}
+      />
+
+      {compareFor && (
+        <CompareRoutes place={compareFor} onClose={() => setCompareFor(null)} />
+      )}
 
       {searchOpen && (
         <SearchScreen

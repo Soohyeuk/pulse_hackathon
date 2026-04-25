@@ -8,7 +8,7 @@ const CATEGORY_LABEL = {
   culture: 'Culture',
 }
 
-export default function PlaceDetail({ place, onClose }) {
+export default function PlaceDetail({ place, onClose, onDirections }) {
   if (!place) return null
 
   return (
@@ -53,7 +53,7 @@ export default function PlaceDetail({ place, onClose }) {
       <div className="place-detail__divider" />
 
       <div className="place-detail__actions">
-        <ActionButton label="Directions">
+        <ActionButton label="Directions" onClick={onDirections}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M3 11l18-8-8 18-2-8z" />
           </svg>
@@ -87,9 +87,9 @@ export default function PlaceDetail({ place, onClose }) {
   )
 }
 
-function ActionButton({ label, children, color = '#5219A7' }) {
+function ActionButton({ label, children, color = '#5219A7', onClick }) {
   return (
-    <button type="button" className="place-action">
+    <button type="button" className="place-action" onClick={onClick}>
       <span className="place-action__icon" style={{ color }}>{children}</span>
       <span className="place-action__label">{label}</span>
     </button>

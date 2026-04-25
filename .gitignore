@@ -12,3 +12,4 @@ perk/dist/
 .DS_Store
 
 backend/.envbackend/.env
+backend/.env
