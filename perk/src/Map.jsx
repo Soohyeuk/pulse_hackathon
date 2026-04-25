@@ -128,9 +128,8 @@ export default function MapView() {
       setMarkers({ origin, dest })
     } catch {
       setError('Failed to fetch routes. Is the backend running?')
-    } finally {
-      setLoading(false)
     }
+    setLoading(false)
   }
 
   if (!TOKEN) return <div style={{ padding: 16 }}>Missing VITE_MAPBOX_TOKEN in .env</div>
