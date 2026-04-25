@@ -1,0 +1,201 @@
+.place-detail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  background: #fff;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 8px 20px 24px;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.15);
+  max-height: 70svh;
+  overflow-y: auto;
+  animation: place-detail-up 0.25s ease;
+}
+
+@keyframes place-detail-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.place-detail__handle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 6px 0 12px;
+  cursor: pointer;
+}
+
+.place-detail__handle span {
+  width: 36px;
+  height: 4px;
+  border-radius: 999px;
+  background: #d8d4df;
+}
+
+.place-detail__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.place-detail__title-block {
+  flex: 1;
+  min-width: 0;
+}
+
+.place-detail__title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #08060d;
+  margin: 0 0 6px;
+  letter-spacing: -0.3px;
+}
+
+.place-detail__rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #1a1622;
+  margin-bottom: 6px;
+}
+
+.place-detail__rating strong {
+  color: #08060d;
+}
+
+.place-detail__stars {
+  color: #f5b301;
+  letter-spacing: 1px;
+}
+
+.place-detail__reviews {
+  color: #6b6375;
+}
+
+.place-detail__address {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 13px;
+  color: #4a4452;
+  margin-bottom: 6px;
+}
+
+.place-detail__address svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #6b6375;
+}
+
+.place-detail__status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.place-detail__open-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22a06b;
+}
+
+.place-detail__open {
+  color: #22a06b;
+  font-weight: 600;
+}
+
+.place-detail__hours-inline {
+  color: #6b6375;
+}
+
+.place-detail__badge {
+  background: #f1ecfa;
+  color: #5219A7;
+  border-radius: 14px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.place-detail__divider {
+  height: 1px;
+  background: #efedf2;
+  margin: 16px 0;
+}
+
+.place-detail__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.place-action {
+  flex: 1;
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.place-action__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #f4f2f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.place-action__label {
+  font-size: 12px;
+  color: #1a1622;
+}
+
+.place-detail__perk {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #f6f1fc;
+  border: 1px solid #ece3fa;
+}
+
+.place-detail__perk-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #5219A7;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.place-detail__perk-value {
+  font-size: 14px;
+  color: #08060d;
+  font-weight: 500;
+}
+
+.place-detail__desc {
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #4a4452;
+}
